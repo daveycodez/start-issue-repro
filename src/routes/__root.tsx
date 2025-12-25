@@ -1,7 +1,7 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
+import { Suspense } from "react";
 import { Header } from "../components/header";
 import { Providers } from "../components/providers";
 import appCss from "../styles.css?url";
@@ -41,7 +41,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<Providers>
-					<Header />
+					<Suspense>
+						<Header />
+					</Suspense>
+
 					{children}
 				</Providers>
 				<TanStackDevtools
