@@ -8,7 +8,8 @@ function RouteComponent() {
 	const { path } = Route.useParams();
 	const navigate = useNavigate();
 
-	const navigateTo = path === "test" ? "/dynamic/test2" : "/dynamic/test";
+	const navigateTo: string =
+		path === "test" ? "/dynamic/test2" : "/dynamic/test";
 
 	return (
 		<div>
