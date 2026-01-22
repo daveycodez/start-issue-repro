@@ -20,7 +20,7 @@ function RouteComponent() {
 					navigate({ to: navigateTo });
 				}}
 			>
-				hi
+				Navigate to {path === "test" ? "test2" : "test"}
 			</button>
 		</div>
 	);
