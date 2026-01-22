@@ -13,6 +13,7 @@ import { Route as TestRouteImport } from './routes/test'
 import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EnIndexRouteImport } from './routes/en/index'
+import { Route as DynamicPathRouteImport } from './routes/dynamic/$path'
 import { Route as ApiTestRouteImport } from './routes/api/test'
 
 const TestRoute = TestRouteImport.update({
@@ -35,6 +36,11 @@ const EnIndexRoute = EnIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnRouteRoute,
 } as any)
+const DynamicPathRoute = DynamicPathRouteImport.update({
+  id: '/dynamic/$path',
+  path: '/dynamic/$path',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTestRoute = ApiTestRouteImport.update({
   id: '/api/test',
   path: '/api/test',
@@ -46,12 +52,14 @@ export interface FileRoutesByFullPath {
   '/en': typeof EnRouteRouteWithChildren
   '/test': typeof TestRoute
   '/api/test': typeof ApiTestRoute
+  '/dynamic/$path': typeof DynamicPathRoute
   '/en/': typeof EnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/test': typeof TestRoute
   '/api/test': typeof ApiTestRoute
+  '/dynamic/$path': typeof DynamicPathRoute
   '/en': typeof EnIndexRoute
 }
 export interface FileRoutesById {
@@ -60,14 +68,22 @@ export interface FileRoutesById {
   '/en': typeof EnRouteRouteWithChildren
   '/test': typeof TestRoute
   '/api/test': typeof ApiTestRoute
+  '/dynamic/$path': typeof DynamicPathRoute
   '/en/': typeof EnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/en' | '/test' | '/api/test' | '/en/'
+  fullPaths: '/' | '/en' | '/test' | '/api/test' | '/dynamic/$path' | '/en/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/api/test' | '/en'
-  id: '__root__' | '/' | '/en' | '/test' | '/api/test' | '/en/'
+  to: '/' | '/test' | '/api/test' | '/dynamic/$path' | '/en'
+  id:
+    | '__root__'
+    | '/'
+    | '/en'
+    | '/test'
+    | '/api/test'
+    | '/dynamic/$path'
+    | '/en/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -75,6 +91,7 @@ export interface RootRouteChildren {
   EnRouteRoute: typeof EnRouteRouteWithChildren
   TestRoute: typeof TestRoute
   ApiTestRoute: typeof ApiTestRoute
+  DynamicPathRoute: typeof DynamicPathRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -107,6 +124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnIndexRouteImport
       parentRoute: typeof EnRouteRoute
     }
+    '/dynamic/$path': {
+      id: '/dynamic/$path'
+      path: '/dynamic/$path'
+      fullPath: '/dynamic/$path'
+      preLoaderRoute: typeof DynamicPathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/test': {
       id: '/api/test'
       path: '/api/test'
@@ -133,6 +157,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnRouteRoute: EnRouteRouteWithChildren,
   TestRoute: TestRoute,
   ApiTestRoute: ApiTestRoute,
+  DynamicPathRoute: DynamicPathRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
