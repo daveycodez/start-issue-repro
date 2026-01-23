@@ -22,6 +22,8 @@ function RouteComponent() {
 			>
 				Navigate to {path === "test" ? "test2" : "test"}
 			</button>
+			<div className="h-256 bg-red-600">Lorem ipsum</div>
+			<div className="h-256 bg-blue-600">bottom</div>
 		</div>
 	);
 }
